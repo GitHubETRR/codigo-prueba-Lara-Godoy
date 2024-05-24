@@ -1,20 +1,21 @@
 #include <stdio.h>
+#include <math.h>
 
-const int pi = 3.14;
+const int pi = 3.1415926535;
 
 int main(void){
-    int mod, ang, rad;
+    int mod, ang;
+    double rad, ejeY, ejeX;
     printf("ingrese el modulo: \n");
     scanf("%d", &mod);
     printf("ingrese el angulo en grados: \n");
     scanf("%d", &ang);
 
     rad = ang * (pi/180);
-    double sin = sin(rad);
-    double cos = cos(rad);
     ejeY = sin(rad)*mod;
     ejeX = cos(rad)*mod;
 
     printf("Parte imaginaria: %d", ejeY);
     printf("Parte real: %d", ejeX);
+    return(0);
 }
