@@ -23,6 +23,6 @@ void Cargar_Vector(int a[]){
 void Mostrar_Vector(int a[]){
     int i;
     for(i=0; i<tamano_vector; i++){
-        printf("\nDato <%d>:%d", i+1, a[i]);
+        printf("\nDato <%d>: %d", i+1, a[i]);
     }
 }
