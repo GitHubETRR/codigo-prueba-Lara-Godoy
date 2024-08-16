@@ -32,6 +32,8 @@ int main(){
     tablero_en_0(fondo);
     tablero_en_0(tiros);
     poner_barcos(fondo);
+
+    printf("La grilla es de %d columnas y de %d filas.", COLUMNAS, FILAS);
     
     while (encontrados<NUM_BARCOS){
         tiro_fila = pedir_datos_fila();
@@ -49,17 +51,21 @@ int main(){
 int pedir_datos_fila(){
     printf("\nIntenta derribar un buque!\n");
     int fila;
-    printf("Fila: ");
-    scanf("%d", &fila);
-    fila--;
+    do {
+        printf("Fila: ");
+        scanf("%d", &fila);
+        fila--;
+    }while (fila < 0 || fila >= FILAS);  // Validación de la fila
     return fila;
 }
 
 int pedir_datos_columna(){
     int columna;
-    printf("Columna: ");
-    scanf("%d", &columna);
-    columna--;
+    do{
+        printf("Columna: ");
+        scanf("%d", &columna);
+        columna--;
+    } while(columna < 0 || columna >= COLUMNAS);
     return columna;
 }
 
@@ -67,12 +73,13 @@ int aciertos(int tiros[FILAS][COLUMNAS],int fondo[FILAS][COLUMNAS], int fila, in
     if (fondo[fila][columna]==OCUPADO){
             printf("Le pegaste!\n");
             fondo[fila][columna] = LIBRE;  // Marcar como libre después de un acierto
-            tiros[fila][columna] = LEDISTE;  // Marcar como libre después de un acierto
+            tiros[fila][columna] = LEDISTE;  
             encontrados++;
-        }else{
+        }else if(tiros[fila][columna] == LIBRE){
             printf("Agua. Intenta de nuevo.\n");
             tiros[fila][columna] = AGUA;  // Marcar como libre después de un acierto
-            
+        }else{
+            printf("Ya tiraste aca. Intenta en otro lugar.\n");
         }
         graficar_matrix(tiros);
     return encontrados;
@@ -81,11 +88,18 @@ int aciertos(int tiros[FILAS][COLUMNAS],int fondo[FILAS][COLUMNAS], int fila, in
 void graficar_matrix(int mat[FILAS][COLUMNAS]){
     for(int i=0;i<FILAS;i++){
         for(int j=0;j<COLUMNAS;j++){
-            printf("|\033[31;1m%c\033[0m|",mat[i][j]);
+            if (mat[i][j]==LEDISTE){
+                printf("|\033[31;1m%c\033[0m|",mat[i][j]);
+            }else if (mat[i][j]==AGUA){
+                printf("|\033[94;1m%c\033[0m|",mat[i][j]);
+            }else{
+                printf("|%c|", mat[i][j]);
+            }
         }
         printf("\n");
     }
 }
+
 void tablero_en_0(int fondo[FILAS][COLUMNAS]){
     for (int i=0; i<FILAS; i++){
         for (int j=0; j<COLUMNAS; j++){
