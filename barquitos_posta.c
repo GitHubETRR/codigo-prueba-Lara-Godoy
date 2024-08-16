@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 #define LEDISTE 'x'
-#define AGUA  'O'
+#define AGUA 'O'
 #define OCUPADO 'x'
 #define LIBRE ' '
 #define COLUMNAS 5
@@ -17,14 +17,13 @@ int aciertos(int tiros[FILAS][COLUMNAS],int fondo[FILAS][COLUMNAS], int fila, in
 void tablero_en_0(int fondo[FILAS][COLUMNAS]);
 void poner_barcos(int fondo[FILAS][COLUMNAS]);
 void graficar_matrix(int mat[FILAS][COLUMNAS]);
+
 int main(){
     int fondo[FILAS][COLUMNAS];
     int tiros[FILAS][COLUMNAS];
-
     int encontrados=0;
     int tiro_colum;
     int tiro_fila;
-
 
     time_t start_time, end_time;
     start_time = time(NULL);
@@ -32,7 +31,6 @@ int main(){
 
     tablero_en_0(fondo);
     tablero_en_0(tiros);
-
     poner_barcos(fondo);
     
     while (encontrados<NUM_BARCOS){
@@ -97,7 +95,6 @@ void tablero_en_0(int fondo[FILAS][COLUMNAS]){
 }
 
 void poner_barcos(int fondo[FILAS][COLUMNAS]){
-      // Inicializar la semilla para rand()
     int puestos = 0;
     while (puestos < NUM_BARCOS){
         int fila = rand() % FILAS;
