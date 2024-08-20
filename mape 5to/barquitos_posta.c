@@ -11,6 +11,8 @@
 #define CASILLEROS (COLUMNAS*FILAS)
 #define NUM_BARCOS (5*(CASILLEROS)/9)
 
+//registro();
+//guardar_usuario();
 int pedir_datos_fila();
 int pedir_datos_columna();
 int aciertos(int tiros[FILAS][COLUMNAS],int fondo[FILAS][COLUMNAS], int fila, int columna, int encontrados);
@@ -31,9 +33,8 @@ int main(){
 
     tablero_en_0(fondo);
     tablero_en_0(tiros);
+    graficar_matrix(fondo);
     poner_barcos(fondo);
-
-    printf("La grilla es de %d columnas y de %d filas.", COLUMNAS, FILAS);
     
     while (encontrados<NUM_BARCOS){
         tiro_fila = pedir_datos_fila();
@@ -55,7 +56,7 @@ int pedir_datos_fila(){
         printf("Fila: ");
         scanf("%d", &fila);
         fila--;
-    }while (fila < 0 || fila >= FILAS);  // Validación de la fila
+    }while (fila < 0 || fila >= FILAS);  // ValidaciÃ³n de la fila
     return fila;
 }
 
@@ -72,12 +73,12 @@ int pedir_datos_columna(){
 int aciertos(int tiros[FILAS][COLUMNAS],int fondo[FILAS][COLUMNAS], int fila, int columna, int encontrados){
     if (fondo[fila][columna]==OCUPADO){
             printf("Le pegaste!\n");
-            fondo[fila][columna] = LIBRE;  // Marcar como libre después de un acierto
+            fondo[fila][columna] = LIBRE;  // Marcar como libre despuÃ©s de un acierto
             tiros[fila][columna] = LEDISTE;  
             encontrados++;
         }else if(tiros[fila][columna] == LIBRE){
             printf("Agua. Intenta de nuevo.\n");
-            tiros[fila][columna] = AGUA;  // Marcar como libre después de un acierto
+            tiros[fila][columna] = AGUA;  // Marcar como libre despuÃ©s de un acierto
         }else{
             printf("Ya tiraste aca. Intenta en otro lugar.\n");
         }
@@ -86,7 +87,13 @@ int aciertos(int tiros[FILAS][COLUMNAS],int fondo[FILAS][COLUMNAS], int fila, in
 }
 
 void graficar_matrix(int mat[FILAS][COLUMNAS]){
+    printf("\n ");
+    for (int j = 0; j < COLUMNAS; j++) {
+        printf("%3d", j + 1);
+    }
+    printf("\n");
     for(int i=0;i<FILAS;i++){
+        printf("%2d", i + 1);
         for(int j=0;j<COLUMNAS;j++){
             if (mat[i][j]==LEDISTE){
                 printf("|\033[31;1m%c\033[0m|",mat[i][j]);
