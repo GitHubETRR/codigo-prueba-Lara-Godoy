@@ -7,7 +7,7 @@
 #define COLUMNAS 4
 #define FILAS 4
 #define CASILLEROS (COLUMNAS*FILAS)
-#define NUM_BARCOS (5*(CASILLEROS)/9)
+#define NUM_BARCOS 6
 
 void tablero_en_0(int fondo[FILAS][COLUMNAS]);
 void graficar_matrix(int mat[FILAS][COLUMNAS]);
@@ -37,10 +37,12 @@ int main(){
     posicionar_barquitos(fondo_1);
     printf("Asi quedo tu tablero Jugador 1:");
     graficar_matrix(fondo_1);
+    printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
     printf("Jugador 2 pone tus barquitos.\n");
     posicionar_barquitos(fondo_2);
     printf("Asi quedo tu tablero Jugador 2:");
     graficar_matrix(fondo_2);
+    printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
     while (1){
         printf("Dispara el jugador 1!\n");
         aciertos_1 += disparar(fondo_2, tiros_2);
