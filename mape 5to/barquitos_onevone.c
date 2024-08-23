@@ -12,6 +12,9 @@
 void tablero_en_0(int fondo[FILAS][COLUMNAS]);
 void graficar_matrix(int mat[FILAS][COLUMNAS]);
 void posicionar_barquitos(int fondo[FILAS][COLUMNAS]);
+int disparar(int fondo[FILAS][COLUMNAS], int tiros[FILAS][COLUMNAS]);
+int verificar_hundidos_1(int tiros[FILAS][COLUMNAS]);
+int verificar_hundidos_2(int tiros[FILAS][COLUMNAS]);
 int pedir_datos_fila();
 int pedir_datos_columna();
 
@@ -20,7 +23,7 @@ int main(){
     int tiros_1[FILAS][COLUMNAS];
     int fondo_2[FILAS][COLUMNAS];
     int tiros_2[FILAS][COLUMNAS];
-    int encontrado_1=0, encontrado_2=0;
+    int aciertos_1=0, aciertos_2=0;
     int tiro_columna_1, tiro_fila_1;
     int tiro_columna_2, tiro_fila_2;
 
@@ -32,12 +35,25 @@ int main(){
     graficar_matrix(fondo_2);
     printf("Jugador 1 pone tus barquitos.\n");
     posicionar_barquitos(fondo_1);
-    printf("Asi quedo tu tablero");
+    printf("Asi quedo tu tablero Jugador 1:");
     graficar_matrix(fondo_1);
+    //printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
     printf("Jugador 2 pone tus barquitos.\n");
     posicionar_barquitos(fondo_2);
-    printf("Asi quedo tu tablero");
+    printf("Asi quedo tu tablero Jugador 2:");
     graficar_matrix(fondo_2);
+    //printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+    while (aciertos_1<=NUM_BARCOS && aciertos_2<=NUM_BARCOS){
+        printf("Dispara el jugador 1!\n");
+        aciertos_1 += disparar(fondo_2, tiros_2);
+        graficar_matrix(tiros_2);
+        printf("Dispara el jugador 2!\n");
+        aciertos_2 += disparar(fondo_1, tiros_1);
+        graficar_matrix(tiros_1);
+        verificar_hundidos_1(tiros_1);
+        verificar_hundidos_2(tiros_2);
+    }
+    printf("El juego termino");
     return 0;
 }
 
@@ -73,10 +89,9 @@ void graficar_matrix(int mat[FILAS][COLUMNAS]){
 }
 
 int pedir_datos_fila(){
-    //printf("\nIntenta derribar un buque!\n");
     int fila;
     do {
-        printf("Fila: ");
+        printf("\nFila: ");
         scanf("%d", &fila);
         fila--;
     }while (fila < 0 || fila >= FILAS);  // Validacion de la fila
@@ -106,4 +121,51 @@ void posicionar_barquitos(int fondo[FILAS][COLUMNAS]){
             printf("Ya pusiste un barco ahi. Intenta de nuevo.\n");
         }
     }
+}
+
+int disparar(int fondo[FILAS][COLUMNAS], int tiros[FILAS][COLUMNAS]){
+    printf("Dispara!");
+    int fila = pedir_datos_fila();
+    int columna = pedir_datos_columna();
+    if (tiros[fila][columna] == LEDISTE || tiros[fila][columna] == AGUA){
+        printf("Ya disparaste aca.\n");
+    }else{
+        if (fondo[fila][columna] == OCUPADO){
+            printf("Impacto!\n");
+            tiros[fila][columna] = LEDISTE;
+            fondo[fila][columna] = LEDISTE;
+        }else{
+            printf("Agua!\n");
+            tiros[fila][columna] = AGUA;
+            fondo[fila][columna] = AGUA;
+        }
+    }
+}
+
+int verificar_hundidos_1(int tiros_1[FILAS][COLUMNAS]){
+    int aciertos_1=0;
+    for (int i=0; i<FILAS; i++){
+        for (int j=0; j<COLUMNAS; j++){
+            if (tiros_1[i][j]==OCUPADO){
+                tiros_1[i][j]==LEDISTE;
+                aciertos_1++;
+            }
+        printf("\n");
+        }
+    }
+    return aciertos_1;
+}
+
+int verificar_hundidos_2(int tiros_2[FILAS][COLUMNAS]){
+    int aciertos_2=0;
+    for (int i=0; i<FILAS; i++){
+        for (int j=0; j<COLUMNAS; j++){
+            if (tiros_2[i][j]==OCUPADO){
+                tiros_2[i][j]==LEDISTE;
+                aciertos_2++;
+            }
+        printf("\n");
+        }
+    }
+    return aciertos_2;
 }
