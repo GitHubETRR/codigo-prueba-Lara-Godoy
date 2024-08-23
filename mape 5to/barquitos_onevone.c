@@ -51,13 +51,13 @@ int main(){
             printf("Gano el jugador 1!\n");
             break;
         }
+        printf("Dispara el jugador 2!\n");
+        aciertos_2 += disparar(fondo_1, tiros_1);
+        graficar_matrix(tiros_1);
         if (verificar_ganador(aciertos_2, NUM_BARCOS)) {
             printf("Gano el jugador 2!\n");
             break;
         }
-        printf("Dispara el jugador 2!\n");
-        aciertos_2 += disparar(fondo_1, tiros_1);
-        graficar_matrix(tiros_1);
     }
     return 0;
 }
