@@ -1,9 +1,6 @@
 #include <stdio.h>
 #include <string.h> 
 
-//nombre del jdr 1
-//nombre del jdr 2
-
 #define LEDISTE 'x'
 #define AGUA 'O'
 #define OCUPADO 'B'
@@ -12,13 +9,12 @@
 #define FILAS 3
 #define CASILLEROS (COLUMNAS*FILAS)
 #define NUM_BARCOS 3
-//#define MAX_LETRAS 16
+#define MAX_LETRAS 16
 
 void tablero_en_0(int fondo[FILAS][COLUMNAS]);
 void graficar_matrix(int mat[FILAS][COLUMNAS]);
 void posicionar_barquitos(int fondo[FILAS][COLUMNAS]);
-/*void pedir_nombre_jugador_1(nombre[MAX_LETRAS]);
-void pedir_nombre_jugador_2(nombre[MAX_LETRAS]);*/
+void pedir_nombre_jugador(char nombre[MAX_LETRAS]);
 int disparar_1(int fondo[FILAS][COLUMNAS], int tiros[FILAS][COLUMNAS]);
 int disparar_2(int fondo[FILAS][COLUMNAS], int tiros[FILAS][COLUMNAS]);
 int verificar_ganador();
@@ -33,8 +29,8 @@ int main(){
     int aciertos_1=0, aciertos_2=0;
     int tiro_columna_1, tiro_fila_1;
     int tiro_columna_2, tiro_fila_2;
-    /*char nombre_1[MAX_LETRAS];
-    char nombre_2[MAX_LETRAS];*/
+    char nombre_1[MAX_LETRAS];
+    char nombre_2[MAX_LETRAS];
 
     tablero_en_0(fondo_1);
     tablero_en_0(tiros_1);
@@ -42,33 +38,35 @@ int main(){
     tablero_en_0(tiros_2);
     graficar_matrix(fondo_1);
     graficar_matrix(fondo_2);
-    printf("Vos sos Jugador 1.\n");
-    printf("Jugador 1 pone tus barquitos.\n");
+    pedir_nombre_jugador(nombre_1);
+    printf("%s pone tus barquitos.", nombre_1);
     posicionar_barquitos(fondo_1);
-    printf("Asi quedo tu tablero Jugador 1:");
+    printf("Asi quedo tu tablero %s:", nombre_1);
     graficar_matrix(fondo_1);
+    printf("Espera unos segundos.");
     sleep(5);
     system("cls");
-    printf("Vos sos Jugador 2.\n");
-    printf("Jugador 2 pone tus barquitos.\n");
+    pedir_nombre_jugador(nombre_2);
+    printf("%s pone tus barquitos.", nombre_2);
     posicionar_barquitos(fondo_2);
-    printf("Asi quedo tu tablero Jugador 2:");
+    printf("Asi quedo tu tablero %s:", nombre_2);
     graficar_matrix(fondo_2);
+    printf("Espera unos segundos.");
     sleep(5);
     system("cls");
     while (1){
-        printf("Dispara el jugador 1!\n");
+        printf("Dispara %s!\n", nombre_1);
         aciertos_1 += disparar(fondo_2, tiros_2);
         graficar_matrix(tiros_2);
         if (verificar_ganador(aciertos_1, NUM_BARCOS)) {
-            printf("\033[32;1mGano el jugador 1!\033[0m\n");
+            printf("\033[32;1mGano %s!\033[0m\n", nombre_1);
             break;
         }
-        printf("Dispara el jugador 2!\n");
+        printf("Dispara %s!\n", nombre_2);
         aciertos_2 += disparar(fondo_1, tiros_1);
         graficar_matrix(tiros_1);
         if (verificar_ganador(aciertos_2, NUM_BARCOS)) {
-            printf("\033[32;1mGano el jugador 2!\033[0m\n");
+            printf("\033[32;1mGano %s!\033[0m\n", nombre_2);
             break;
         }
     }
@@ -167,6 +165,12 @@ int verificar_ganador(int aciertos, int num_barcos){
     return aciertos >= num_barcos;
 }
 
-/*void pedir_nombre_jugador_1(nombre[MAX_LETRAS]){}
-
-void pedir_nombre_jugador_2(nombre[MAX_LETRAS]){}*/
+void pedir_nombre_jugador(char nombre[MAX_LETRAS]){
+    printf("Ingresa tu nombre: ");
+    fflush(stdin);
+    fgets(nombre, MAX_LETRAS, stdin);
+    size_t len = strlen(nombre);
+    if (len > 0 && nombre[len - 1] == '\n'){
+        nombre[len - 1] = '\0';
+    }
+}

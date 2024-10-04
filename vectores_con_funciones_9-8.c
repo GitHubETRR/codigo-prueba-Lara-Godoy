@@ -1,11 +1,11 @@
 #include <stdio.h>
-#define tamano_vector 6
+#define TAMANO_VECTOR 6
 
 void Cargar_Vector(int[]);
 void Mostrar_Vector(int[]);
 
 int main(){
-    int vec[tamano_vector];
+    int vec[TAMANO_VECTOR];
     system("cls");
     Cargar_Vector(vec);
     Mostrar_Vector(vec);
@@ -14,15 +14,15 @@ int main(){
 
 void Cargar_Vector(int a[]){
     int i;
-    for(i=0;i<tamano_vector;i++){
-        printf("\nIngrese dato <%d> de <%d>: ", i+1, tamano_vector);
+    for(i=0;i<TAMANO_VECTOR;i++){
+        printf("\nIngrese dato <%d> de <%d>: ", i+1, TAMANO_VECTOR);
         scanf("%d", &a[i]);
     }
 }
 
 void Mostrar_Vector(int a[]){
     int i;
-    for(i=0; i<tamano_vector; i++){
+    for(i=0; i<TAMANO_VECTOR; i++){
         printf("\nDato <%d>: %d", i+1, a[i]);
     }
 }
