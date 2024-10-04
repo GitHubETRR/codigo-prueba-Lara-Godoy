@@ -21,8 +21,7 @@ int main(){
     printf("Ingrese el segundo numero: ");
     scanf("%d", &num_2);
 
-    switch (eleccion)
-    {
+    switch (eleccion){
     case 1:
         resultado = suma(num_1, num_2);
         printf("\nResultado: %d", resultado);

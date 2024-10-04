@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 #define MAX_NOTAS 3
-#define MAX_ESTUDIANTES 5
+#define MAX_ESTUDIANTES 3
 
 struct estudiante{
     char nombre[50];
@@ -28,7 +28,7 @@ int main(){
 }
 
 void pedir_datos(struct estudiante *est){
-    printf("Ingresa el nombre del estudiante: ");
+    printf("\nIngresa el nombre del estudiante: ");
     scanf("%s", est->nombre);
 
     printf("Ingresa la edad del estudiante: ");
@@ -41,9 +41,9 @@ void pedir_datos(struct estudiante *est){
 }
 
 float calcular_promedios(float notas[]){
-    float suma = 0;
+    float suma = 0.0;
     for (int i = 0; i < MAX_NOTAS; i++){
-        suma += estudiantes.notas[i];
+        suma += notas[i];
     }
     return suma / MAX_NOTAS;
 }

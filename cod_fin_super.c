@@ -16,8 +16,7 @@ void imprimir(caracteristicas_t);
 
 caracteristicas_t spiderman = {"Spider-Man", 100, 100, 100, 100, "munequeras", "sentido aracnido", "se aferra a la mayoria de las superficies"};
 caracteristicas_t duende_verde = {"Duende Verde", 100, 100, 100, 100, "granadas", "planeador", "curacion regenerativa"};
-int main()
-{
+int main(){
     printf("Spider-Man\n");
     printf("Su identidad secreta es Peter Parker, un joven fotografo de Nueva York que, despues de ser mordido por una arana radiactiva, adquiere habilidades \nespeciales: fuerza sobrehumana, agilidad extraordinaria, y la capacidad de trepar paredes y disparar telaranas.\nA diferencia de muchos otros superheroes, Peter Parker enfrenta desafios cotidianos como pagar impuestos, lidiar con el trabajo y mantener relaciones personales.\n\n");
     imprimir(spiderman);
@@ -27,8 +26,7 @@ int main()
     return 0;
 }
 
-void imprimir(caracteristicas_t personaje)
-{
+void imprimir(caracteristicas_t personaje){
     printf("Nombre:%s\n",personaje.nombre);
     printf("Velocidad:%d\n",personaje.velocidad);
     printf("Fuerza:%d\n",personaje.fuerza);
