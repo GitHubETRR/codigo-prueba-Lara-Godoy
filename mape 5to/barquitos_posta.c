@@ -56,7 +56,7 @@ int pedir_datos_fila(){
         printf("Fila: ");
         scanf("%d", &fila);
         fila--;
-    }while (fila < 0 || fila >= FILAS);  // ValidaciÃ³n de la fila
+    }while (fila < 0 || fila >= FILAS);  // Validacion de la fila
     return fila;
 }
 
@@ -73,12 +73,12 @@ int pedir_datos_columna(){
 int aciertos(int tiros[FILAS][COLUMNAS],int fondo[FILAS][COLUMNAS], int fila, int columna, int encontrados){
     if (fondo[fila][columna]==OCUPADO){
             printf("Le pegaste!\n");
-            fondo[fila][columna] = LIBRE;  // Marcar como libre despuÃ©s de un acierto
+            fondo[fila][columna] = LIBRE;  // Marcar como libre despues de un acierto
             tiros[fila][columna] = LEDISTE;  
             encontrados++;
         }else if(tiros[fila][columna] == LIBRE){
             printf("Agua. Intenta de nuevo.\n");
-            tiros[fila][columna] = AGUA;  // Marcar como libre despuÃ©s de un acierto
+            tiros[fila][columna] = AGUA;  // Marcar como libre despues de un acierto
         }else{
             printf("Ya tiraste aca. Intenta en otro lugar.\n");
         }
