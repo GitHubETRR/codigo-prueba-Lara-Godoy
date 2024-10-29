@@ -26,10 +26,10 @@ struct menu_resto postres = {{"Lemonpie", "Ensalada de frutas"}, {11000, 6700}, 
 
 void imprimir(struct menu_resto plato);
 void anadir_plato(char nombre[MAX_LETRAS], int precio, struct menu_resto* seccion);
-void eliminar_plato(char nombre[MAX_LETRAS], int precio);
+void eliminar_plato(char nombre[MAX_LETRAS], struct menu_resto* seccion);
 
 int main(){
-    int eleccion, seccion;
+    int eleccion, seccion, respuesta;
     char nombre[MAX_LETRAS];
     int precio;
     printf("El menu del restaurante: \n");
@@ -80,21 +80,44 @@ int main(){
         break;
 
     case 2:
-        printf("A que seccion queres eliminarle un plato?\n");
-        printf("1. Parrilla. \n");
-        printf("2. Ensaladas. \n");
-        printf("3. Pescados. \n");
-        printf("4. Postres. \n");
-        scanf("%d", &seccion);
+    printf("A que seccion queres eliminarle un plato?\n");
+    printf("1. Parrilla.\n");
+    printf("2. Ensaladas.\n");
+    printf("3. Pescados.\n");
+    printf("4. Postres.\n");
+    scanf("%d", &seccion);
+    getchar();
+    printf("Nombre del plato a eliminar: (Escribir tal cual)");
+    fgets(nombre, MAX_LETRAS, stdin);
+    size_t len = strlen(nombre);
+    if (len > 0 && nombre[len - 1] == '\n'){
+        nombre[len - 1] = '\0'; 
+    }
         switch(seccion){
         case 1:
-            /* code */
+            eliminar_plato(nombre, &parrilla);
             break;
-        
+        case 2:
+            eliminar_plato(nombre, &ensaladas);
+            break;  
+        case 3:
+            eliminar_plato(nombre, &pescados);
+            break;
+        case 4:
+            eliminar_plato(nombre, &postres);
+            break;
         default:
+            printf("No hay tal sección.\n");
             break;
-        }
-        break;
+    }
+    break;
+
+    case 3:
+    printf("Que queres modificar? \nNombre: 1, Precio: 2.");
+    scanf("%d", &respuesta);
+    if(respuesta==1){
+        
+    }
     
     default:
         break;
@@ -137,10 +160,29 @@ void anadir_plato(char nombre[MAX_LETRAS], int precio, struct menu_resto* seccio
         printf("\nPostres: \n");
         imprimir(postres);
     }else{
-        printf("\nNo se pueden añadir más platos en esta sección.\n");
+        printf("\nNo se pueden anadir más platos en esta seccion.\n");
     }
 }
 
-void eliminar_plato(char nombre[MAX_LETRAS], int precio){
-    printf("");
+void eliminar_plato(char nombre[MAX_LETRAS], struct menu_resto* seccion){
+    int found = -1;
+    // Buscar el plato en la sección
+    for(int i = 0; i < seccion->total_platos; i++){ //recorre todos los platos en la seccion
+        //Si el nombre del plato actual coincide con el nombre que se quiere eliminar
+        if (strcmp(seccion->nombre[i], nombre) == 0){ 
+            found = i;
+            break;
+        }
+    }
+
+    if (found != -1){ //si el plato no se encuentra
+        for (int i = found; i < seccion->total_platos - 1; i++){ //desplaza los platos una posicion hacia atras
+            strcpy(seccion->nombre[i], seccion->nombre[i + 1]);
+            seccion->precio[i] = seccion->precio[i + 1];
+        }
+        seccion->total_platos--; //baja la cantidad de platos
+        printf("\nEl plato ha sido eliminado con exito.\n");
+    } else {
+        printf("\nEl plato no se ha encontrado en la seccion.\n");
+    }
 }
