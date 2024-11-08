@@ -11,8 +11,6 @@
 #define CASILLEROS (COLUMNAS*FILAS)
 #define NUM_BARCOS (5*(CASILLEROS)/9)
 
-//registro();
-//guardar_usuario();
 int pedir_datos_fila();
 int pedir_datos_columna();
 int aciertos(int tiros[FILAS][COLUMNAS],int fondo[FILAS][COLUMNAS], int fila, int columna, int encontrados);
