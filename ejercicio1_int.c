@@ -19,20 +19,20 @@ typedef struct {
     char nombre[TAM_TXT];
     char apellido[TAM_TXT];
     fecha_venta_t fecha_venta;
-    bool estado;  // Estado: DISPONIBLE (0) o VENDIDO (1)
+    bool estado;  		// Estado: DISPONIBLE (0) o VENDIDO (1)	
 } reservas_t;
 
 int mostrar_disponibles(int avion[FILAS][COLUMNAS]);
 void graficar_matrix(int mat[FILAS][COLUMNAS]);
-int elegir_asiento(reservas_t asiento, int avion[FILAS][COLUMNAS]);
+int elegir_asiento(reservas_t asiento, fecha_venta_t vendido, int avion[FILAS][COLUMNAS]);
 int pedir_datos_fila();
 int pedir_datos_columna();
 
 int main() {
     int avion[FILAS][COLUMNAS];
-    reservas_t reservas[CANT_ASIENTOS]; // Arreglo para almacenar múltiples reservas
-    int contador_reservas = 0;
-    
+    reservas_t asiento;
+    fecha_venta_t vendido;
+
     for (int i = 0; i < FILAS; i++) {
         for (int j = 0; j < COLUMNAS; j++) {
             avion[i][j] = DESOCUPADO;
@@ -40,24 +40,12 @@ int main() {
     }
 
     printf("Buenos dias.\n");
-
-    printf("Ingrese su nombre: ");
-    scanf("%s", asiento.nombre);
-    printf("Ingrese su apellido: ");
-    scanf("%s", asiento.apellido);
-
-    printf("Ingrese el dia de la venta: ");
-    scanf("%d", &asiento.fecha_venta.dia);
-    printf("Ingrese el mes de la venta: ");
-    scanf("%d", &asiento.fecha_venta.mes);
-    printf("Ingrese el anio de la venta: ");
-    scanf("%d", &asiento.fecha_venta.anio);
-
     int disponibles = mostrar_disponibles(avion);
     printf("Hay %d de %d asientos libres.\n", disponibles, CANT_ASIENTOS);
     graficar_matrix(avion);
 
-    elegir_asiento(asiento, avion);
+    elegir_asiento(asiento, vendido, avion);
+
     disponibles = mostrar_disponibles(avion);
     printf("Ahora hay %d de %d asientos libres.\n", disponibles, CANT_ASIENTOS);
     graficar_matrix(avion);
@@ -92,16 +80,30 @@ void graficar_matrix(int mat[FILAS][COLUMNAS]) {
     }
 }
 
-int elegir_asiento(reservas_t asiento, int avion[FILAS][COLUMNAS]) {
-    int asientos_requeridos = 0;
+int elegir_asiento(reservas_t asiento, fecha_venta_t vendido, int avion[FILAS][COLUMNAS]) {
+    int asientos_requeridos, gasto;
+    
+    printf("Ingrese su nombre: ");
+    scanf("%s", asiento.nombre);
+    printf("Ingrese su apellido: ");
+    scanf("%s", asiento.apellido);
+    printf("Ingrese el dia de la venta: ");
+    scanf("%d", &vendido.dia);
+    printf("Ingrese el mes de la venta: ");
+    scanf("%d", &vendido.mes);
+    printf("Ingrese el anio de la venta: ");
+    scanf("%d", &vendido.anio);
 
     printf("Cuantos asientos quieres reservar?: ");
     scanf("%d", &asientos_requeridos);
 
-    while (asientos_requeridos > 0 && *contador_reservas < CANT_ASIENTOS) {
+    gasto = asientos_requeridos * 1000;
+    printf("Gasto total: %d\n", gasto);
+
+    while (asientos_requeridos > 0) {
         int fila = pedir_datos_fila();
         int columna = pedir_datos_columna();
-
+        
         if (avion[fila][columna] == DESOCUPADO) {
             avion[fila][columna] = OCUPADO;
             asientos_requeridos--;
