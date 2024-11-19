@@ -6,8 +6,8 @@
 #define AGUA 'O'
 #define OCUPADO 'x'
 #define LIBRE ' '
-#define COLUMNAS 5
-#define FILAS 5
+#define COLUMNAS 3
+#define FILAS 3
 #define CASILLEROS (COLUMNAS*FILAS)
 #define NUM_BARCOS (5*(CASILLEROS)/9)
 
