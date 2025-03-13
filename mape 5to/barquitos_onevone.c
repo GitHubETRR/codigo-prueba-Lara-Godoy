@@ -54,7 +54,7 @@ int main(){
     printf("Espera unos segundos.");
     sleep(5);
     system("cls");
-    while (1){
+    while (1){ //cambiar por algo no infinito
         printf("Dispara %s!\n", nombre_1);
         aciertos_1 += disparar(fondo_2, tiros_2);
         graficar_matrix(tiros_2);

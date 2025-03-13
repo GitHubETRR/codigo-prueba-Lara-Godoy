@@ -3,6 +3,7 @@
 
 #define TAM_TXT 15
 #define LIBRE 0
+#define VENDIDO 1
 #define CANT_ASIENTOS (COLUMNAS*FILAS)
 #define COLUMNAS 4
 #define FILAS 2
@@ -36,7 +37,7 @@ int main(){
     reservas_t asientos[FILAS][COLUMNAS] = {0};
     reservas_t asiento;
     fecha_venta_t vendido;
-    int respuesta, eleccion;
+    int resp, respuesta, eleccion;
     int disponibles = 0;
 
     for(int i = 0; i < FILAS; i++) {
@@ -44,7 +45,7 @@ int main(){
             avion[i][j] = DESOCUPADO;
         }
     }
-    
+
     do{
         printf("\nBienvenido. Que deseas hacer?: \n");
         printf("1. Ver disponibles. \n");
@@ -58,37 +59,32 @@ int main(){
             printf("Hay %d de %d asientos libres.\n", disponibles, CANT_ASIENTOS);
             graficar_matrix(avion);
             break;
-
         case 2: 
             elegir_asiento(asientos, avion); 
             disponibles = mostrar_disponibles(avion);  
             printf("Ahora hay %d de %d asientos libres.\n", disponibles, CANT_ASIENTOS);
             graficar_matrix(avion);
             break;
-
-    
         case 3:
-            printf("\nAsientos reservados:\n");
+            printf("\nAsientos reservados:\n"); //ARREGLAR
             for (int i = 0; i < FILAS; i++) {
                 for (int j = 0; j < COLUMNAS; j++) {
-                    if (asientos[i][j].estado) {
-                        printf("Asiento [%d, %d] reservado por %s %s, Fecha: %02d/%02d/%d\n",
-                        i + 1, j + 1, asientos[i][j].nombre, asientos[i][j].apellido,
-                        asientos[i][j].fecha_venta.dia, asientos[i][j].fecha_venta.mes,
-                        asientos[i][j].fecha_venta.anio);
+                    if (asientos[i][j].estado == VENDIDO) {
+                        printf("Asientos reservados por %s %s. ",
+                        asientos[i][j].nombre, asientos[i][j].apellido);
+                        printf("Fecha de compra: %02d/%02d/%d.\n",
+                        asientos[i][j].fecha_venta.dia, asientos[i][j].fecha_venta.mes, asientos[i][j].fecha_venta.anio);
                     }
                 }
             }
             break;
-
         case 4:
-            printf("Recaudado total: %d$", total_recaudado);
+            printf("Recaudado total: %d$\n", total_recaudado);
             break;
-
         default:
             break;
         }
-    } while (eleccion =! 3);
+    } while (eleccion != 4);
     return 0;
     }
 
@@ -141,21 +137,15 @@ int pedir_datos_columna(){
 
 int elegir_asiento(reservas_t asientos[FILAS][COLUMNAS], int avion[FILAS][COLUMNAS]) {
     int asientos_requeridos, fila = 0, columna = 0;
+    char nombre[TAM_TXT];
+    char apellido[TAM_TXT];
+    fecha_venta_t fecha;
+
     printf("Cuantos asientos quieres reservar?: ");
     scanf("%d", &asientos_requeridos);
 
     if (asientos_requeridos > 0 && asientos_requeridos <= CANT_ASIENTOS) {
         int gasto = asientos_requeridos * PRECIO_ASIENTO;
-        printf("Ingrese su nombre: ");
-        scanf("%s", asientos[fila][columna].nombre);
-        printf("Ingrese su apellido: ");
-        scanf("%s", asientos[fila][columna].apellido);
-        printf("Ingrese el dia de la venta: ");
-        scanf("%d", &asientos[fila][columna].fecha_venta.dia);
-        printf("Ingrese el mes de la venta: ");
-        scanf("%d", &asientos[fila][columna].fecha_venta.mes);
-        printf("Ingrese el anio de la venta: ");
-        scanf("%d", &asientos[fila][columna].fecha_venta.anio);
 
         while (asientos_requeridos > 0){
             graficar_matrix(avion);
@@ -164,10 +154,23 @@ int elegir_asiento(reservas_t asientos[FILAS][COLUMNAS], int avion[FILAS][COLUMN
 
             if (avion[fila][columna] == DESOCUPADO) {
                 avion[fila][columna] = OCUPADO;
-                asientos[fila][columna].estado = true;
+                asientos[fila][columna].estado = VENDIDO;
 
-                snprintf(asientos[fila][columna].nombre, TAM_TXT, "%s", asientos[fila][columna].nombre);
-                snprintf(asientos[fila][columna].apellido, TAM_TXT, "%s", asientos[fila][columna].apellido);
+                // Copiar datos del asiento [0][0] al nuevo asiento elegido
+                //snprintf(destino, tamaño, "formato", fuente);
+                //snprintf(asientos[fila][columna].nombre, TAM_TXT, "%s", asientos[0][0].nombre);
+                //snprintf(asientos[fila][columna].apellido, TAM_TXT, "%s", asientos[0][0].apellido);
+                
+                printf("Ingrese su nombre: ");
+                scanf("%s", asientos[fila][columna].nombre);
+                printf("Ingrese su apellido: ");
+                scanf("%s", asientos[fila][columna].apellido);
+                printf("Ingrese el dia de la venta: ");
+                scanf("%d", &asientos[fila][columna].fecha_venta.dia);
+                printf("Ingrese el mes de la venta: ");
+                scanf("%d", &asientos[fila][columna].fecha_venta.mes);
+                printf("Ingrese el anio de la venta: ");
+                scanf("%d", &asientos[fila][columna].fecha_venta.anio);
 
                 asientos_requeridos--;
                 printf("Asiento [%d, %d] reservado con exito.\n", fila + 1, columna + 1);
@@ -181,7 +184,6 @@ int elegir_asiento(reservas_t asientos[FILAS][COLUMNAS], int avion[FILAS][COLUMN
     } else {
         printf("No hay tanta cantidad de asientos.\n");
     }
-
     return 0;
 }
 

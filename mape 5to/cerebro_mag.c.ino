@@ -16,7 +16,7 @@
 #define DIP2 A1
 #define PULSO_PIN A2
 #define RESET_CONT A3
-#define TILT_PIN A4
+#define BOTON_PIN A4
 
 int PREG[] = {2, 3, 4, 5, 6, 7};
 int RESP[] = {8, 9, 10, 11, 12, 13};
@@ -45,13 +45,16 @@ void setup(){
         pinMode(PREG[i], INPUT_PULLUP); // Preguntas
     for (int i = 0; i < CANT_RESP; i++)
         pinMode(RESP[i], INPUT_PULLUP); // Respuestas
+    digitalWrite(PULSO_PIN, LOW);
     pinMode(PULSO_PIN, OUTPUT); // Pin de pulso de salida
+    digitalWrite(PULSO_PIN, LOW);
+
     pinMode(RESET_CONT, OUTPUT);
     reset();
-    pinMode(TILT_PIN, OUTPUT);
-    digitalWrite(TILT_PIN, HIGH);
+    pinMode(BOTON_PIN, INPUT);
     pinMode(DIP1, INPUT_PULLUP); // DIP-SWITCH 1
     pinMode(DIP2, INPUT_PULLUP); // DIP-SWITCH 2
+    reset();
 }
 
 void loop(){
@@ -61,28 +64,34 @@ void loop(){
         cat = cat_new;
         reset();
     }
-
     int preg = ver(PREG);
-    if (preg != CANT_PREG){
-        if (verificar_comb(preg, cat) == true){
-            if (bloqueo[preg] == LIBRE){
-                bloqueo[preg] = BLOQUEADO;
-                enviar_pulso(); // Enviar pulso cuando hay éxito
-                int i;
-                for (i = 0; i < CANT_PREG; i++)if (bloqueo[i] == LIBRE)break;
-                if (i == CANT_PREG)titilar();
+    if (digitalRead(BOTON_PIN) == LOW) { 
+        delay(50); 
+        if (digitalRead(BOTON_PIN) == LOW) { 
+            int preg = ver(PREG);
+            if (preg != CANT_PREG) {
+                if (verificar_comb(preg, cat) == true) {
+                    if (bloqueo[preg] == LIBRE) {
+                        bloqueo[preg] = BLOQUEADO;
+                        Serial.println("Pulso");
+                        enviar_pulso(); 
+                        int i;
+                        for (i = 0; i < CANT_PREG; i++) if (bloqueo[i] == LIBRE) break;
+                        if (i == CANT_PREG) reset();
+                    }
+                }
             }
-            while (ver(PREG) != CANT_PREG);
+            while (digitalRead(BOTON_PIN) == LOW); 
         }
-        delay(DELAY); // Pausa para evitar lecturas rápidas
     }
 }
 
 bool verificar_comb(int preg, int cat){
     int resp = ver(RESP);
     int lectura = digitalRead(PREGS[cat][preg]);
-    if (digitalRead(RESP[PREGS[cat][preg]]) == LOW)
+    if (digitalRead(RESP[PREGS[cat][preg]]) == LOW){
         return true;
+    }
     return false;
 }
 
@@ -114,16 +123,4 @@ void reset(void){
     digitalWrite(RESET_CONT, HIGH);
     delay(TIEMPO_PULSO);
     for (int i = 0; i < CANT_PREG; i++)bloqueo[i] = LIBRE;
-
-}
-
-void titilar(void){
-    for (int i = 0; i < CANT_TILT; i++){
-        digitalWrite(TILT_PIN, LOW);
-        delay(TIEMPO_TILT);
-        digitalWrite(TILT_PIN, HIGH);
-        delay(TIEMPO_TILT);
-    }
-    reset();
-
 }
