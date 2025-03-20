@@ -22,7 +22,7 @@ typedef struct {
     char apellido[TAM_TXT];
     fecha_venta_t fecha_venta;
     bool estado;  		// Estado: DISPONIBLE (0) o VENDIDO (1)	
-} reservas_t;
+} reservas_t;      
 
 int mostrar_disponibles(int avion[FILAS][COLUMNAS]);
 void graficar_matrix(int mat[FILAS][COLUMNAS]);

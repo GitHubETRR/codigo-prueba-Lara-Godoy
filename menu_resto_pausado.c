@@ -134,6 +134,7 @@ void imprimir(struct menu_resto plato){
 }
 
 void anadir_plato(char nombre[MAX_LETRAS], int precio, struct menu_resto* seccion){
+    precio = 0;
     if(seccion->total_platos < MAX_PLATOS){
         printf("Nombre del nuevo plato: ");
         fflush(stdin);
