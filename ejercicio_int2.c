@@ -106,8 +106,10 @@ void procesar_datos(Empleado empleados[], float cant_emp){
     for (int i = 1; i < cant_emp; i++) {
         if (empleados[i].salario > empleados[indice_mayor].salario) {
             indice_mayor = i; 
+            printf("\nEl empleado con el mayor salario es %s con  %.2f $\n", empleados[indice_mayor].nombre, (float)empleados[indice_mayor].salario); 
+            //(float) pasa de int a float
+        } else if (empleados[i].salario == empleados[indice_mayor].salario){
+            printf("Los empleados cobran lo mismo.");
         }
     }
-    printf("\nEl empleado con el mayor salario es %s con  %.2f $\n", empleados[indice_mayor].nombre, (float)empleados[indice_mayor].salario); 
-    //(float) pasa de int a float
 }
